@@ -101,6 +101,8 @@ public class Reporte extends AppCompatActivity {
             txtRazonSocial.setText(razon_social.trim());
         }
 
+        Log.d("reportes",""+factura_num);
+
         //------------------------------------Conexión con la API------------------------------------//
         LoboVentasApiService ApiService = LoboVentasApiAdapter.getApiService();
 

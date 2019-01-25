@@ -7,6 +7,8 @@
         android:title="Configuración"/>
     <item android:id="@+id/acercaDe"
         android:title="Acerca de..."/>
+    <item android:id="@+id/cerrarSesion"
+        android:title="Cerrar Sesión"/>
     <item android:id="@+id/salir"
         android:title="Salir"/>
 </menu>

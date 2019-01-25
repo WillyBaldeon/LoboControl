@@ -16,8 +16,8 @@ import sac.lobosistemas.loboventas.model.VentasMes;
 
 public interface LoboVentasApiService {
 
-    @GET("empresas")
-    Call<ArrayList<Empresa>> getEmpresas();
+    @GET("empresas/{estado}")
+    Call<ArrayList<Empresa>> getEmpresas(@Path("estado") String estado);
 
     @GET("pagos/dia")
     Call<ArrayList<PagoDia>> getPagosDia();

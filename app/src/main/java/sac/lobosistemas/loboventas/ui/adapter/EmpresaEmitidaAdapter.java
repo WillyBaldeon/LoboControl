@@ -12,26 +12,25 @@ import java.util.ArrayList;
 import sac.lobosistemas.loboventas.R;
 import sac.lobosistemas.loboventas.model.Empresa;
 
-public class EmpresaAdapter extends RecyclerView.Adapter<EmpresaAdapter.ViewHolder> implements View.OnClickListener{
+public class EmpresaEmitidaAdapter extends RecyclerView.Adapter<EmpresaEmitidaAdapter.ViewHolder> implements View.OnClickListener{
 
     private ArrayList<Empresa> mDataSet;
     private View.OnClickListener listener;
 
-    public EmpresaAdapter(ArrayList<Empresa> listado_clientes) {
+    public EmpresaEmitidaAdapter(ArrayList<Empresa> listado_clientes) {
         mDataSet = listado_clientes;
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView empresa, retraso;
+        public TextView empresa;
         public ViewHolder(View v) {
             super(v);
 
-            empresa = (TextView)itemView.findViewById(R.id.empresa);
-            retraso = (TextView)itemView.findViewById(R.id.retraso);
+            empresa = (TextView)itemView.findViewById(R.id.empresaEmitida);
         }
     }
 
-    public EmpresaAdapter() {
+    public EmpresaEmitidaAdapter() {
         mDataSet = new ArrayList<>();
     }
 
@@ -42,7 +41,7 @@ public class EmpresaAdapter extends RecyclerView.Adapter<EmpresaAdapter.ViewHold
 
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_empresa,null,false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.view_empresa_emitida,null,false);
         view.setOnClickListener(this);
         return new ViewHolder(view);
     }
@@ -50,8 +49,7 @@ public class EmpresaAdapter extends RecyclerView.Adapter<EmpresaAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int i) {
 
-        holder.empresa.setText(mDataSet.get(i).getEmpresa_razonsocial());
-        holder.retraso.setText(mDataSet.get(i).getCalc()+"           ");
+        holder.empresa.setText(mDataSet.get(i).getEmpresa_razonsocial()+"                                        ");
     }
 
     @Override

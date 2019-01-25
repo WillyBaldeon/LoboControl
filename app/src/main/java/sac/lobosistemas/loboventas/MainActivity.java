@@ -5,9 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -22,7 +25,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -35,8 +37,9 @@ import sac.lobosistemas.loboventas.model.Empresa;
 import sac.lobosistemas.loboventas.model.PagoDia;
 import sac.lobosistemas.loboventas.model.PagoMes;
 import sac.lobosistemas.loboventas.ui.adapter.EmpresaAdapter;
+import sac.lobosistemas.loboventas.ui.adapter.ListasAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
     LoboVentasApiService ApiService; //Para conectar con la API
 
@@ -47,6 +50,9 @@ public class MainActivity extends AppCompatActivity {
     private EmpresaAdapter mAdapter; //Adaptador para las empresas//
     private RecyclerView mRecyclerView;
     private SwipeRefreshLayout swipeRefreshLayout; //Para refrescar la lista
+
+    private ViewPager pager; //Para navegar entre tabs
+    private ListasAdapter listasAdapter; //Adaptador de los tabs
 
     ProgressBar pbMes, pbDia, progressEmpresas;
     EditText txtBuscar;
@@ -72,9 +78,14 @@ public class MainActivity extends AppCompatActivity {
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(layoutManager);
 
-        //---------------------------Adaptador--------------------------//
+        //---------------------------Adaptador del ReciclerView--------------------------//
         mAdapter= new EmpresaAdapter();
         mRecyclerView.setAdapter(mAdapter);
+
+        //---------------------------Adaptador del ViewPager--------------------------//
+        pager = findViewById(R.id.pager);
+        listasAdapter = new ListasAdapter(getSupportFragmentManager());
+        pager.setAdapter(listasAdapter);
 
         //------------------------------------Conexión con la API------------------------------------//
         ApiService = LoboVentasApiAdapter.getApiService();
@@ -149,6 +160,16 @@ public class MainActivity extends AppCompatActivity {
             Intent acercade = new Intent(this, AcercaDe.class);
             startActivity(acercade);
 
+        } else if(id == R.id.cerrarSesion){
+
+            SharedPreferences.Editor editor = preferencias.edit();
+            editor.putString("Usuario", "");
+            editor.commit();
+
+            Intent login = new Intent(this, Login.class);
+            startActivity(login);
+            finish();
+
         } else {
             AlertDialog.Builder builder= new AlertDialog.Builder(MainActivity.this);
             builder.setMessage("¿Desea salir de la aplicación?");
@@ -203,7 +224,7 @@ public class MainActivity extends AppCompatActivity {
 
     //------------------------------------RetroFit Empresa--------------------------------------//
     public void cargarEmpresas(){
-        Call<ArrayList<Empresa>> call = ApiService.getEmpresas();
+        Call<ArrayList<Empresa>> call = ApiService.getEmpresas("0");
         call.enqueue(new Callback<ArrayList<Empresa>>() {
             @Override
             public void onResponse(Call<ArrayList<Empresa>> call, Response<ArrayList<Empresa>> response) {

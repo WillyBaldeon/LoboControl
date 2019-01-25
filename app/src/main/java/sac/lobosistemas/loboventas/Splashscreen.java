@@ -2,7 +2,9 @@ package sac.lobosistemas.loboventas;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.PixelFormat;
 import android.os.Bundle;
 import android.view.Window;
@@ -19,6 +21,9 @@ public class Splashscreen extends Activity{
     }
     /** Called when the activity is first created. */
     Thread splashTread;
+    SharedPreferences preferencias;
+    String usuario;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,8 +53,21 @@ public class Splashscreen extends Activity{
                         sleep(100);
                         waited += 100;
                     }
-                    Intent intent = new Intent(Splashscreen.this,
-                            MainActivity.class);
+
+                    //------------------Preferencias------------------//
+                    preferencias = getSharedPreferences("Datos", Context.MODE_PRIVATE);
+                    usuario = preferencias.getString("Usuario","");
+
+                    Intent intent;
+
+                    if(usuario == ""){
+                        intent = new Intent(Splashscreen.this,
+                                Login.class);
+                    } else {
+                        intent = new Intent(Splashscreen.this,
+                                MainActivity.class);
+                    }
+
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
                     startActivity(intent);
                     Splashscreen.this.finish();
@@ -58,7 +76,6 @@ public class Splashscreen extends Activity{
                 } finally {
                     Splashscreen.this.finish();
                 }
-
             }
         };
         splashTread.start();

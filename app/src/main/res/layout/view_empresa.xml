@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:orientation="horizontal">
 
     <TableRow
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingBottom="5dp"
-        android:background="#005697"
+        android:background="#d02e26"
         android:stretchColumns="2">
 
         <TextView
@@ -26,7 +26,7 @@
 
         <TextView
             android:id="@+id/retraso"
-            android:layout_width="100dp"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="2dp"
             android:background="#ffffff"
@@ -36,4 +36,4 @@
             android:textSize="18sp" />
     </TableRow>
 
-</TableLayout>
+</LinearLayout>

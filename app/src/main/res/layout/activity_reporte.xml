@@ -21,10 +21,9 @@
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:shadowColor="#000000"
-            android:shadowRadius="2"
             android:text="IMAGEN ALTERNATIVA S.A.C."
-            android:textSize="24sp" />
+            android:textSize="24sp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/txtRUC"
