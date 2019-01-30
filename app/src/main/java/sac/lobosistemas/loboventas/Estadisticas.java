@@ -167,10 +167,10 @@ public class Estadisticas extends AppCompatActivity {
         barChart.animateY(900);
 
         xVals.add("Años");
-        xVals.add("2016");
-        xVals.add("2017");
-        xVals.add("2018");
-        xVals.add("2019");
+
+        for(int i=0; i < anios.size(); i++){
+            xVals.add(""+anios.get(i));
+        }
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setAxisMinimum(0f);
