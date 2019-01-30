@@ -39,7 +39,7 @@ public class Estadisticas extends AppCompatActivity {
     BarChart barChart;
     ArrayList<VentasMes> ventas = new ArrayList<>();
 
-    int anioActual;
+    int anioActual, mesActual;
     String fechaInicio, fechaFin;
     Spinner meses;
 
@@ -55,6 +55,9 @@ public class Estadisticas extends AppCompatActivity {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy");
         anioActual = Integer.parseInt(simpleDateFormat.format(date).toUpperCase());
 
+        simpleDateFormat = new SimpleDateFormat("M");
+        mesActual  = Integer.parseInt(simpleDateFormat.format(date).toUpperCase());
+
         for(int i=2016; i <= anioActual; i++){
             anios.add(""+i);
         }
@@ -63,7 +66,7 @@ public class Estadisticas extends AppCompatActivity {
 
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.meses, R.layout.spinner_item_meses);
         meses.setAdapter(adapter);
-
+        meses.setSelection(mesActual-1);
 
         //------------------------------------Conexión con la API------------------------------------//
         ApiService = LoboVentasApiAdapter.getApiService();
@@ -123,6 +126,7 @@ public class Estadisticas extends AppCompatActivity {
                         @Override
                         public void onFailure(Call<ArrayList<VentasMes>> call, Throwable t) {
                             Log.d("onResponse Ventas","Algo salió mal: "+t.getMessage());
+                            barChart.setNoDataText("Error de Conexión. Asegúrese de tener conexión Internet.");
                         }
                     });
                 }

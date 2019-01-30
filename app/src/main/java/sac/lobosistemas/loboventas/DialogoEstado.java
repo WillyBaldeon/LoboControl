@@ -11,11 +11,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-
-import retrofit2.Callback;
-import sac.lobosistemas.loboventas.model.Login;
-
 public class DialogoEstado {
 
     TextView lblEstado, txtInformacion;

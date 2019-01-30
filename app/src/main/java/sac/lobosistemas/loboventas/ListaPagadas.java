@@ -16,20 +16,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import sac.lobosistemas.loboventas.io.LoboVentasApiAdapter;
 import sac.lobosistemas.loboventas.io.LoboVentasApiService;
 import sac.lobosistemas.loboventas.model.Empresa;
-import sac.lobosistemas.loboventas.ui.adapter.EmpresaAdapter;
 import sac.lobosistemas.loboventas.ui.adapter.EmpresaPagadaAdapter;
 
 

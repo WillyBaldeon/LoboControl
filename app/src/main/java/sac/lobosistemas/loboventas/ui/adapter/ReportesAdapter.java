@@ -6,12 +6,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
-
 import sac.lobosistemas.loboventas.R;
-import sac.lobosistemas.loboventas.model.Empresa;
 import sac.lobosistemas.loboventas.model.Reportes;
 
 public class ReportesAdapter extends RecyclerView.Adapter<ReportesAdapter.ViewHolder> implements View.OnClickListener{
