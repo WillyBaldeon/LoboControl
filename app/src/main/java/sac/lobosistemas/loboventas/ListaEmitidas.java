@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -47,6 +48,7 @@ public class ListaEmitidas extends Fragment {
 
     ProgressBar progressEmpresas, pbMes;
     TextView lblConexionEmitida;
+    ImageView alertEmitidas;
     EditText txtBuscar;
 
     public ListaEmitidas() {
@@ -62,6 +64,8 @@ public class ListaEmitidas extends Fragment {
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         progressEmpresas = view.findViewById(R.id.progressEmpresas);
         lblConexionEmitida = view.findViewById(R.id.lblConexionEmitida);
+        alertEmitidas = view.findViewById(R.id.alertEmitidas);
+
         txtBuscar = view.findViewById(R.id.txtBuscar2);
 
         //-------------------------RecyclerView-------------------------//
@@ -94,6 +98,7 @@ public class ListaEmitidas extends Fragment {
                 txtBuscar.setText("");
                 progressEmpresas.setVisibility(View.INVISIBLE);
                 lblConexionEmitida.setVisibility(TextView.INVISIBLE);
+                alertEmitidas.setVisibility(ImageView.INVISIBLE);
             }
         });
 
@@ -146,6 +151,7 @@ public class ListaEmitidas extends Fragment {
                     swipeRefreshLayout.setRefreshing(false);
                     progressEmpresas.setVisibility(View.INVISIBLE);
                     lblConexionEmitida.setVisibility(View.INVISIBLE);
+                    alertEmitidas.setVisibility(ImageView.INVISIBLE);
 
                     TextWatcher myTextWatcher = new TextWatcher() {
                         @Override
@@ -170,6 +176,7 @@ public class ListaEmitidas extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<Empresa>> call, Throwable t) {
                 lblConexionEmitida.setVisibility(TextView.VISIBLE);
+                alertEmitidas.setVisibility(ImageView.VISIBLE);
                 progressEmpresas.setVisibility(View.INVISIBLE);
                 swipeRefreshLayout.setRefreshing(false);
                 Log.d("onResponse empresas","Algo salió mal: "+t.getMessage());            }

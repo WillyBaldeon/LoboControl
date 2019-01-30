@@ -1,13 +1,8 @@
 package sac.lobosistemas.loboventas;
 
-
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,22 +14,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import sac.lobosistemas.loboventas.io.LoboVentasApiAdapter;
 import sac.lobosistemas.loboventas.io.LoboVentasApiService;
 import sac.lobosistemas.loboventas.model.Empresa;
-import sac.lobosistemas.loboventas.model.PagoMes;
 import sac.lobosistemas.loboventas.ui.adapter.EmpresaAdapter;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,6 +44,7 @@ public class ListaVencidas extends Fragment {
     ProgressBar progressEmpresas, pbMes;
 
     EditText txtBuscar;
+    ImageView alertVencidas;
     TextView lblConexionVencida;
     public ListaVencidas() {
         // Required empty public constructor
@@ -63,12 +56,13 @@ public class ListaVencidas extends Fragment {
 
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_lista_vencidas, container, false);
-        Log.d("Vencidas","Se creó");
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         progressEmpresas = view.findViewById(R.id.progressEmpresas);
         lblConexionVencida= view.findViewById(R.id.lblConexionVencida);
         txtBuscar = view.findViewById(R.id.txtBuscar1);
+
+        alertVencidas = view.findViewById(R.id.alertVencidas);
 
         //-------------------------RecyclerView-------------------------//
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_empresas);
@@ -92,7 +86,6 @@ public class ListaVencidas extends Fragment {
             @Override
             public void onRefresh() {
                 // Esto se ejecuta cada vez que se realiza el gesto
-                // Esto se ejecuta cada vez que se realiza el gesto
                 Main2Activity main2Activity = new Main2Activity();
                 main2Activity.cargarMetaMensual();
 
@@ -100,6 +93,7 @@ public class ListaVencidas extends Fragment {
                 txtBuscar.setText("");
                 progressEmpresas.setVisibility(View.INVISIBLE);
                 lblConexionVencida.setVisibility(TextView.INVISIBLE);
+                alertVencidas.setVisibility(ImageView.INVISIBLE);
             }
         });
 
@@ -152,6 +146,7 @@ public class ListaVencidas extends Fragment {
                     swipeRefreshLayout.setRefreshing(false);
                     progressEmpresas.setVisibility(View.INVISIBLE);
                     lblConexionVencida.setVisibility(View.INVISIBLE);
+                    alertVencidas.setVisibility(ImageView.INVISIBLE);
 
                     TextWatcher myTextWatcher = new TextWatcher() {
                         @Override
@@ -178,6 +173,7 @@ public class ListaVencidas extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<Empresa>> call, Throwable t) {
                 lblConexionVencida.setVisibility(TextView.VISIBLE);
+                alertVencidas.setVisibility(ImageView.VISIBLE);
                 progressEmpresas.setVisibility(View.INVISIBLE);
                 swipeRefreshLayout.setRefreshing(false);
                 Log.d("onResponse empresas","Algo salió mal: "+t.getMessage());

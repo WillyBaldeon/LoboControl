@@ -51,6 +51,16 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="50dp" />
 
+            <ImageView
+                android:id="@+id/alertVencidas"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_above="@+id/lblConexionVencida"
+                android:layout_centerHorizontal="true"
+                android:layout_marginBottom="-70dp"
+                android:src="@drawable/ic_alert"
+                android:visibility="invisible" />
+
             <TextView
                 android:id="@+id/lblConexionVencida"
                 android:layout_width="wrap_content"

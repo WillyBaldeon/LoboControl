@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ public class ListaPagadas extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout; //Para refrescar la lista
 
     ProgressBar progressEmpresas, pbMes;
+    ImageView alertPagadas;
     TextView lblConexionPagada;
     EditText txtBuscar;
 
@@ -64,6 +66,7 @@ public class ListaPagadas extends Fragment {
 
         txtBuscar = view.findViewById(R.id.txtBuscar3);
         lblConexionPagada = view.findViewById(R.id.lblConexionPagada);
+        alertPagadas = view.findViewById(R.id.alertPagadas);
 
         //-------------------------RecyclerView-------------------------//
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_empresas_pagadas);
@@ -94,6 +97,7 @@ public class ListaPagadas extends Fragment {
                 txtBuscar.setText("");
                 progressEmpresas.setVisibility(View.INVISIBLE);
                 lblConexionPagada.setVisibility(TextView.INVISIBLE);
+                alertPagadas.setVisibility(ImageView.INVISIBLE);
             }
         });
 
@@ -147,6 +151,7 @@ public class ListaPagadas extends Fragment {
                     swipeRefreshLayout.setRefreshing(false);
                     progressEmpresas.setVisibility(View.INVISIBLE);
                     lblConexionPagada.setVisibility(View.INVISIBLE);
+                    alertPagadas.setVisibility(ImageView.INVISIBLE);
 
                     TextWatcher myTextWatcher = new TextWatcher() {
                         @Override
@@ -172,6 +177,7 @@ public class ListaPagadas extends Fragment {
             @Override
             public void onFailure(Call<ArrayList<Empresa>> call, Throwable t) {
                 lblConexionPagada.setVisibility(TextView.VISIBLE);
+                alertPagadas.setVisibility(ImageView.VISIBLE);
                 progressEmpresas.setVisibility(View.INVISIBLE);
                 swipeRefreshLayout.setRefreshing(false);
                 Log.d("onResponse empresas","Algo salió mal: "+t.getMessage());

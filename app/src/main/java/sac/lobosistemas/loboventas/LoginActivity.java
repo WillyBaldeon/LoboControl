@@ -69,7 +69,6 @@ public class LoginActivity extends AppCompatActivity {
                     if(!login.get(0).getAcceso().equals("error")){
 
                         SharedPreferences.Editor editor=preferencias.edit();
-                        editor.putString("Nombre", ""+login.get(0).getAcceso());
                         editor.putString("Usuario", ""+usuario.getText());
                         editor.putString("Password", ""+password.getText());
                         editor.commit();

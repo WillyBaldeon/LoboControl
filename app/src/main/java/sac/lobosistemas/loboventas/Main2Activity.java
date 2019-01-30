@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import java.math.BigDecimal;
@@ -54,6 +56,7 @@ public class Main2Activity extends AppCompatActivity{
     static ProgressBar pbMes, pbDia;
     static TextView lblMetaMensual, lblMetaDiaria;
     static Float PagoMes, PagoDia, MetaMensual, metaDiaria, progresoMes, progresoDia;
+    static String nombre;
     SharedPreferences preferencias;
 
     @Override
@@ -99,12 +102,10 @@ public class Main2Activity extends AppCompatActivity{
                     if(login.get(0).getAcceso().equals("error")){
 
                         SharedPreferences.Editor editor=preferencias.edit();
-                        editor.putString("Nombre", "");
                         editor.putString("Usuario", "");
                         editor.putString("Password", "");
                         editor.commit();
 
-                        Log.d("Login","Se mostrará el diálogo");
                         new DialogoEstado(Main2Activity.this);
                     }
                 }

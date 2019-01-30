@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import java.math.BigDecimal;
@@ -38,6 +39,7 @@ public class Reporte extends AppCompatActivity {
     private RecyclerView.LayoutManager mLayoutManager;
 
     TextView txtRazonSocial, txtRUC, txtSerie, txtFechaEmision, txtFechaVencimiento, txtTotal, txtPagado, txtRestante, lblPagado, lblRestante, lblTotal, lblConexionReporte;
+    ImageView alertaReporte;
     FabSpeedDial fabSpeedDial;
     ProgressBar progressReporte;
     String factura_num, RUC;
@@ -63,6 +65,7 @@ public class Reporte extends AppCompatActivity {
         lblRestante = findViewById(R.id.lblRestante);
         lblTotal = findViewById(R.id.lblTotal);
         lblConexionReporte = findViewById(R.id.lblConexionReporte);
+        alertaReporte = findViewById(R.id.alertReporte);
 
         progressReporte = findViewById(R.id.progressReporte);
         fabSpeedDial = findViewById(R.id.fabSpeedDial);
@@ -194,6 +197,7 @@ public class Reporte extends AppCompatActivity {
             @Override
             public void onFailure(Call<ArrayList<Reportes>> call, Throwable t) {
                 lblConexionReporte.setVisibility(TextView.VISIBLE);
+                alertaReporte.setVisibility(ImageView.VISIBLE);
                 progressReporte.setVisibility(View.INVISIBLE);
                 Log.d("onResponse reportes","Algo salió mal: "+t.getMessage());
             }

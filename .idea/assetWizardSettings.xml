@@ -19,8 +19,10 @@
                                   <option name="values">
                                     <map>
                                       <entry key="assetType" value="IMAGE" />
-                                      <entry key="imageAsset" value="C:\Users\alexm\Downloads\close-circle\holo_light\drawable-xxxhdpi\ic_close_circle.png" />
-                                      <entry key="outputName" value="ic_close_circle" />
+                                      <entry key="imageAsset" value="C:\Users\alexm\Downloads\alert\holo_light\drawable-xxxhdpi\ic_alert.png" />
+                                      <entry key="outputName" value="ic_alert" />
+                                      <entry key="theme" value="CUSTOM" />
+                                      <entry key="themeColor" value="d02e26" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -48,7 +50,6 @@
                                   <option name="values">
                                     <map>
                                       <entry key="backgroundAssetType" value="COLOR" />
-                                      <entry key="backgroundColor" value="2381c6" />
                                       <entry key="backgroundLayerName" value="ic_launcher_background" />
                                       <entry key="foregroundImage" value="F:\lobo_logo_celeste.png" />
                                       <entry key="foregroundLayerName" value="ic_launcher_foreground" />
