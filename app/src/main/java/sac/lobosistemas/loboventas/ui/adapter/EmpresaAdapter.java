@@ -22,10 +22,11 @@ public class EmpresaAdapter extends RecyclerView.Adapter<EmpresaAdapter.ViewHold
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView empresa, retraso;
+        public TextView empresa, retraso, factura;
         public ViewHolder(View v) {
             super(v);
 
+            factura = (TextView)itemView.findViewById(R.id.factura);
             empresa = (TextView)itemView.findViewById(R.id.empresa);
             retraso = (TextView)itemView.findViewById(R.id.retraso);
         }
@@ -50,6 +51,7 @@ public class EmpresaAdapter extends RecyclerView.Adapter<EmpresaAdapter.ViewHold
     @Override
     public void onBindViewHolder(ViewHolder holder, int i) {
 
+        holder.factura.setText(mDataSet.get(i).getFactura_numero());
         holder.empresa.setText(mDataSet.get(i).getEmpresa_razonsocial());
         holder.retraso.setText(mDataSet.get(i).getCalc()+"           ");
     }

@@ -1,0 +1,5 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+    <item name="ic_information" type="drawable">drawable/ic_information</item>
+    <item name="ic_logout" type="drawable">drawable/ic_logout</item>
+    <item name="ic_close_circle" type="drawable">drawable/ic_close_circle</item>
+</resources>

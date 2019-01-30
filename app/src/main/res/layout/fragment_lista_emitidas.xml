@@ -9,16 +9,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="5dp"
+        android:paddingRight="5dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
+            android:layout_gravity="center"
             android:orientation="horizontal">
 
             <EditText
-                android:id="@+id/txtBuscar"
+                android:id="@+id/txtBuscar2"
                 android:layout_width="285dp"
                 android:layout_height="50dp"
                 android:layout_weight="1"
@@ -26,21 +28,14 @@
                 android:hint="Buscar..."
                 android:inputType="textPersonName" />
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/imageView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
-                android:gravity="center_horizontal"
-                android:orientation="vertical">
+                app:srcCompat="@mipmap/ic_feature_search_outline" />
 
-                <ImageView
-                    android:id="@+id/imageView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:layout_weight="1"
-                    app:srcCompat="@mipmap/ic_feature_search_outline" />
-            </LinearLayout>
         </LinearLayout>
 
         <RelativeLayout
@@ -54,13 +49,20 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentTop="true"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="30dp" />
+                android:layout_marginTop="50dp" />
 
-            <ScrollView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:clipToPadding="false"
-                android:fillViewport="true">
+            <TextView
+                android:id="@+id/lblConexionEmitida"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="70dp"
+                android:gravity="center"
+                android:text="No es posible conectarse con la base de datos.\nAsegúrese de tener conexión a internet."
+                android:textColor="#d02e26"
+                android:visibility="invisible" />
+
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,6 +76,18 @@
                         android:background="#faa519">
 
                         <TextView
+                            android:id="@+id/textView27"
+                            android:layout_width="55dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginBottom="2dp"
+                            android:background="#ffffff"
+                            android:textColor="#000000"
+                            android:gravity="center"
+                            android:text="Factura"
+                            android:textSize="12dp"
+                            android:textStyle="bold" />
+
+                        <TextView
                             android:id="@+id/textView14"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
@@ -81,6 +95,7 @@
                             android:paddingTop="4dp"
                             android:paddingBottom="5dp"
                             android:background="#ffffff"
+                            android:textColor="#000000"
                             android:gravity="center"
                             android:text="Empresa"
                             android:textSize="18dp"
@@ -100,8 +115,6 @@
 
                     </android.support.v4.widget.SwipeRefreshLayout>
                 </LinearLayout>
-            </ScrollView>
         </RelativeLayout>
-
     </LinearLayout>
 </FrameLayout>

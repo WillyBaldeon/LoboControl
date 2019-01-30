@@ -131,6 +131,7 @@ public class DialogoReporte {
                         txtEmail.setEnabled(false);
                         btnEnviar.setEnabled(false);
                         state="enviando";
+                        Log.d("onResponse Estado","Se intentará enviar: "+accion);
 
                         if(accion.equals("estado")){
                             //------------------------------------RetroFit EstadoFactura--------------------------------------//
@@ -161,6 +162,15 @@ public class DialogoReporte {
 
                                 @Override
                                 public void onFailure(Call<ArrayList<Estado>> call, Throwable t) {
+                                    new DialogoEstado(context,"conexion",""+email,""+accion);
+
+                                    progressEstado.setVisibility(View.INVISIBLE);
+                                    dialogo.setCancelable(true);
+                                    lblCancelar.setClickable(true);
+                                    txtEmail.setEnabled(true);
+                                    btnEnviar.setEnabled(true);
+                                    state="";
+
                                     Log.d("onResponse Estado","Algo salió mal: "+t.getMessage());
                                 }
                             });

@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -45,7 +46,7 @@ public class ListaEmitidas extends Fragment {
     private SwipeRefreshLayout swipeRefreshLayout; //Para refrescar la lista
 
     ProgressBar progressEmpresas, pbMes;
-
+    TextView lblConexionEmitida;
     EditText txtBuscar;
 
     public ListaEmitidas() {
@@ -60,8 +61,8 @@ public class ListaEmitidas extends Fragment {
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         progressEmpresas = view.findViewById(R.id.progressEmpresas);
-
-        txtBuscar = view.findViewById(R.id.txtBuscar);
+        lblConexionEmitida = view.findViewById(R.id.lblConexionEmitida);
+        txtBuscar = view.findViewById(R.id.txtBuscar2);
 
         //-------------------------RecyclerView-------------------------//
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_empresas_emitidas);
@@ -79,16 +80,20 @@ public class ListaEmitidas extends Fragment {
 
         //------------FUNCIÓN RETROFIT------------//
         cargarEmpresas();
-        txtBuscar.setText("");
 
         //-------------------------Actualizar Datos-------------------------//
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // Esto se ejecuta cada vez que se realiza el gesto
+                // Esto se ejecuta cada vez que se realiza el gesto
+                Main2Activity main2Activity = new Main2Activity();
+                main2Activity.cargarMetaMensual();
+
                 cargarEmpresas();
                 txtBuscar.setText("");
                 progressEmpresas.setVisibility(View.INVISIBLE);
+                lblConexionEmitida.setVisibility(TextView.INVISIBLE);
             }
         });
 
@@ -99,7 +104,8 @@ public class ListaEmitidas extends Fragment {
     private void filtro(String text) {
         ArrayList<Empresa> filterList = new ArrayList<>();
         for (Empresa item : empresas){
-            if (item.getEmpresa_razonsocial().toLowerCase().contains(text.toLowerCase())){
+            if (item.getEmpresa_razonsocial().toLowerCase().contains(text.toLowerCase()) ||
+                    item.getFactura_numero().toLowerCase().contains(text.toLowerCase())){
                 filterList.add(item);
             }
         }
@@ -127,7 +133,7 @@ public class ListaEmitidas extends Fragment {
 
     //------------------------------------RetroFit Empresa--------------------------------------//
     public void cargarEmpresas(){
-        Call<ArrayList<Empresa>> call = ApiService.getEmpresas("1");
+        Call<ArrayList<Empresa>> call = ApiService.getEmpresas("1","1");
         call.enqueue(new Callback<ArrayList<Empresa>>() {
             @Override
             public void onResponse(Call<ArrayList<Empresa>> call, Response<ArrayList<Empresa>> response) {
@@ -139,6 +145,7 @@ public class ListaEmitidas extends Fragment {
                     clickAdaptador(empresas);
                     swipeRefreshLayout.setRefreshing(false);
                     progressEmpresas.setVisibility(View.INVISIBLE);
+                    lblConexionEmitida.setVisibility(View.INVISIBLE);
 
                     TextWatcher myTextWatcher = new TextWatcher() {
                         @Override
@@ -162,8 +169,10 @@ public class ListaEmitidas extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Empresa>> call, Throwable t) {
-                Log.d("onResponse empresas","Algo salió mal: "+t.getMessage());
-            }
+                lblConexionEmitida.setVisibility(TextView.VISIBLE);
+                progressEmpresas.setVisibility(View.INVISIBLE);
+                swipeRefreshLayout.setRefreshing(false);
+                Log.d("onResponse empresas","Algo salió mal: "+t.getMessage());            }
         });
     }
 }

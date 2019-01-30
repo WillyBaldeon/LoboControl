@@ -55,7 +55,7 @@ public class ReportesAdapter extends RecyclerView.Adapter<ReportesAdapter.ViewHo
 
         Float valor = Float.parseFloat(mDataSet.get(i).getValor_unitario());
 
-        holder.descripcion.setText(mDataSet.get(i).getDescripcion().trim()+"                                       ");
+        holder.descripcion.setText(mDataSet.get(i).getDescripcion().trim()+"                                                        ");
         holder.cantidad.setText(""+mDataSet.get(i).getCantidad());
         holder.valor_unitario.setText(mDataSet.get(i).getMoneda()+" "+darFormato(String.valueOf(round(valor,2))));
     }

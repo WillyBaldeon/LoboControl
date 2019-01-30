@@ -12,8 +12,19 @@
         android:stretchColumns="2">
 
         <TextView
+            android:id="@+id/factura"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_marginRight="2dp"
+            android:background="#ffffff"
+            android:gravity="center_vertical"
+            android:paddingLeft="5dp"
+            android:text="1723"
+            android:textSize="18sp" />
+
+        <TextView
             android:id="@+id/empresa"
-            android:layout_width="295dp"
+            android:layout_width="255dp"
             android:layout_height="match_parent"
             android:background="#ffffff"
             android:gravity="center_vertical"
@@ -21,6 +32,7 @@
             android:paddingBottom="15dp"
             android:shadowColor="#000000"
             android:shadowRadius="1"
+            android:paddingLeft="5dp"
             android:text="Nombre de la empresa"
             android:textSize="20sp" />
 
@@ -33,7 +45,7 @@
             android:gravity="center_vertical"
             android:paddingLeft="5dp"
             android:text="20"
-            android:textSize="18sp" />
+            android:textSize="16dp" />
     </TableRow>
 
 </LinearLayout>

@@ -112,7 +112,7 @@ public class Estadisticas extends AppCompatActivity {
 
                                 ventas = response.body();
 
-                                anioYvalor.put(finalI,Float.parseFloat(ventas.get(0).getSuma_mes_especifico()));
+                                anioYvalor.put(finalI,Float.parseFloat(ventas.get(0).getCancelado()));
 
                                 if(anioYvalor.size() == anios.size()){
                                     crearGrafico(""+parent.getItemAtPosition(finalPosition -1));

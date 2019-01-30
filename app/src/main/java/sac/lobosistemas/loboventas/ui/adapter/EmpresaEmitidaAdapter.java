@@ -22,10 +22,11 @@ public class EmpresaEmitidaAdapter extends RecyclerView.Adapter<EmpresaEmitidaAd
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView empresa;
+        public TextView empresa, factura;
         public ViewHolder(View v) {
             super(v);
 
+            factura = (TextView)itemView.findViewById(R.id.facturaEmitida);
             empresa = (TextView)itemView.findViewById(R.id.empresaEmitida);
         }
     }
@@ -49,7 +50,8 @@ public class EmpresaEmitidaAdapter extends RecyclerView.Adapter<EmpresaEmitidaAd
     @Override
     public void onBindViewHolder(ViewHolder holder, int i) {
 
-        holder.empresa.setText(mDataSet.get(i).getEmpresa_razonsocial()+"                                        ");
+        holder.factura.setText(mDataSet.get(i).getFactura_numero());
+        holder.empresa.setText(mDataSet.get(i).getEmpresa_razonsocial()+"                                             ");
     }
 
     @Override

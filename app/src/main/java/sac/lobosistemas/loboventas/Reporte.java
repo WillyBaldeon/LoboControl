@@ -1,6 +1,9 @@
 package sac.lobosistemas.loboventas;
 
+import android.annotation.SuppressLint;
 import android.graphics.Color;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.support.design.internal.NavigationMenu;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -18,20 +21,23 @@ import java.util.ArrayList;
 import io.github.yavski.fabspeeddial.FabSpeedDial;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
 import sac.lobosistemas.loboventas.io.LoboVentasApiAdapter;
 import sac.lobosistemas.loboventas.io.LoboVentasApiService;
+import sac.lobosistemas.loboventas.model.ConteoFacturas;
 import sac.lobosistemas.loboventas.model.Reportes;
 import sac.lobosistemas.loboventas.ui.adapter.ReportesAdapter;
 
 public class Reporte extends AppCompatActivity {
 
     ArrayList<Reportes> reportes = new ArrayList<>(); //Para consultar los reportes
+    ArrayList<ConteoFacturas> estado = new ArrayList<>(); //Para consultar el estado
 
     private ReportesAdapter mAdapter; //Adaptador para los reportes
     private RecyclerView mRecyclerView;
     private RecyclerView.LayoutManager mLayoutManager;
 
-    TextView txtRazonSocial, txtRUC, txtSerie, txtFechaEmision, txtFechaVencimiento, txtTotal, txtPagado, txtRestante, lblPagado, lblRestante, lblTotal;
+    TextView txtRazonSocial, txtRUC, txtSerie, txtFechaEmision, txtFechaVencimiento, txtTotal, txtPagado, txtRestante, lblPagado, lblRestante, lblTotal, lblConexionReporte;
     FabSpeedDial fabSpeedDial;
     ProgressBar progressReporte;
     String factura_num, RUC;
@@ -56,9 +62,22 @@ public class Reporte extends AppCompatActivity {
         lblPagado = findViewById(R.id.lblPagado);
         lblRestante = findViewById(R.id.lblRestante);
         lblTotal = findViewById(R.id.lblTotal);
+        lblConexionReporte = findViewById(R.id.lblConexionReporte);
 
         progressReporte = findViewById(R.id.progressReporte);
         fabSpeedDial = findViewById(R.id.fabSpeedDial);
+
+        Bundle parametros = this.getIntent().getExtras();
+        if (parametros != null) {
+            String razon_social = getIntent().getExtras().getString("empresa_razonsocial");
+            factura_num = getIntent().getExtras().getString("factura_num");
+            txtRazonSocial.setText(razon_social.trim());
+        }
+
+        //------------------------------------Conexión con la API------------------------------------//
+        final LoboVentasApiService ApiService = LoboVentasApiAdapter.getApiService();
+
+        //----------------------------Botones Flotantes----------------------------//
         fabSpeedDial.setMenuListener(new FabSpeedDial.MenuListener() {
             @Override
             public boolean onPrepareMenu(NavigationMenu navigationMenu) {
@@ -72,7 +91,33 @@ public class Reporte extends AppCompatActivity {
                 if(id == R.id.enviarFactura){
                     new DialogoReporte(Reporte.this, ""+RUC, ""+factura_num,"factura");
                 } else if(id == R.id.enviarEstado){
-                    new DialogoReporte(Reporte.this, ""+RUC, ""+factura_num,"estado");
+
+                    Log.d("onResponse conteo","Se contará.");
+
+                    //------------------------------------RetroFit Conteo--------------------------------------//
+
+                    Call<ArrayList<ConteoFacturas>> call = ApiService.getConteo(""+RUC);
+                    call.enqueue(new Callback<ArrayList<ConteoFacturas>>() {
+                        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                        @Override
+                        public void onResponse(Call<ArrayList<ConteoFacturas>> call, Response<ArrayList<ConteoFacturas>> response) {
+                            if(response.isSuccessful()){
+                                estado = response.body();
+                                Log.d("onResponse conteo","Resultado: "+ estado.get(0).getEstado()+".");
+
+                                if(estado.get(0).getEstado().equals("si")){
+                                    new DialogoReporte(Reporte.this, ""+RUC, ""+factura_num,"estado");
+                                } else {
+                                    new DialogoEstado(Reporte.this, ""+txtRazonSocial.getText());
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ArrayList<ConteoFacturas>> call, Throwable t) {
+                            Log.d("onResponse conteo","Algo salió mal: "+t.getMessage());
+                        }
+                    });
                 }
                 return true;
             }
@@ -94,17 +139,7 @@ public class Reporte extends AppCompatActivity {
         mAdapter= new ReportesAdapter();
         mRecyclerView.setAdapter(mAdapter);
 
-        Bundle parametros = this.getIntent().getExtras();
-        if (parametros != null) {
-            String razon_social = getIntent().getExtras().getString("empresa_razonsocial");
-            factura_num = getIntent().getExtras().getString("factura_num");
-            txtRazonSocial.setText(razon_social.trim());
-        }
-
         Log.d("reportes",""+factura_num);
-
-        //------------------------------------Conexión con la API------------------------------------//
-        LoboVentasApiService ApiService = LoboVentasApiAdapter.getApiService();
 
         //------------------------------------RetroFit Reportes--------------------------------------//
         Call<ArrayList<Reportes>> call = ApiService.getReportes(""+factura_num);
@@ -158,6 +193,8 @@ public class Reporte extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<ArrayList<Reportes>> call, Throwable t) {
+                lblConexionReporte.setVisibility(TextView.VISIBLE);
+                progressReporte.setVisibility(View.INVISIBLE);
                 Log.d("onResponse reportes","Algo salió mal: "+t.getMessage());
             }
         });

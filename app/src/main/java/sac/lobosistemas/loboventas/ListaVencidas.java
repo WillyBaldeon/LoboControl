@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -51,7 +52,7 @@ public class ListaVencidas extends Fragment {
     ProgressBar progressEmpresas, pbMes;
 
     EditText txtBuscar;
-
+    TextView lblConexionVencida;
     public ListaVencidas() {
         // Required empty public constructor
     }
@@ -66,8 +67,8 @@ public class ListaVencidas extends Fragment {
 
         swipeRefreshLayout = view.findViewById(R.id.swipeRefreshLayout);
         progressEmpresas = view.findViewById(R.id.progressEmpresas);
-
-        txtBuscar = view.findViewById(R.id.txtBuscar);
+        lblConexionVencida= view.findViewById(R.id.lblConexionVencida);
+        txtBuscar = view.findViewById(R.id.txtBuscar1);
 
         //-------------------------RecyclerView-------------------------//
         mRecyclerView = (RecyclerView) view.findViewById(R.id.recycler_view_empresas);
@@ -83,20 +84,22 @@ public class ListaVencidas extends Fragment {
         //------------------------------------Conexión con la API------------------------------------//
         ApiService = LoboVentasApiAdapter.getApiService();
 
-        Log.d("Vencidas","Se cargarán las empresas");
         //------------FUNCIÓN RETROFIT------------//
         cargarEmpresas();
-        txtBuscar.setText("");
-
 
         //-------------------------Actualizar Datos-------------------------//
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 // Esto se ejecuta cada vez que se realiza el gesto
+                // Esto se ejecuta cada vez que se realiza el gesto
+                Main2Activity main2Activity = new Main2Activity();
+                main2Activity.cargarMetaMensual();
+
                 cargarEmpresas();
                 txtBuscar.setText("");
                 progressEmpresas.setVisibility(View.INVISIBLE);
+                lblConexionVencida.setVisibility(TextView.INVISIBLE);
             }
         });
 
@@ -107,7 +110,8 @@ public class ListaVencidas extends Fragment {
     private void filtro(String text) {
         ArrayList<Empresa> filterList = new ArrayList<>();
         for (Empresa item : empresas){
-            if (item.getEmpresa_razonsocial().toLowerCase().contains(text.toLowerCase())){
+            if (item.getEmpresa_razonsocial().toLowerCase().contains(text.toLowerCase()) ||
+                    item.getFactura_numero().toLowerCase().contains(text.toLowerCase())){
                 filterList.add(item);
             }
         }
@@ -135,7 +139,7 @@ public class ListaVencidas extends Fragment {
 
     //------------------------------------RetroFit Empresa--------------------------------------//
     public void cargarEmpresas(){
-        Call<ArrayList<Empresa>> call = ApiService.getEmpresas("0");
+        Call<ArrayList<Empresa>> call = ApiService.getEmpresas("0","0");
         call.enqueue(new Callback<ArrayList<Empresa>>() {
             @Override
             public void onResponse(Call<ArrayList<Empresa>> call, Response<ArrayList<Empresa>> response) {
@@ -147,6 +151,7 @@ public class ListaVencidas extends Fragment {
                     clickAdaptador(empresas);
                     swipeRefreshLayout.setRefreshing(false);
                     progressEmpresas.setVisibility(View.INVISIBLE);
+                    lblConexionVencida.setVisibility(View.INVISIBLE);
 
                     TextWatcher myTextWatcher = new TextWatcher() {
                         @Override
@@ -164,6 +169,7 @@ public class ListaVencidas extends Fragment {
 
                         }
                     };
+                    filtro(""+txtBuscar.getText());
                     txtBuscar.addTextChangedListener(myTextWatcher);
                     Log.d("Vencidas","Se cargaron las empresas");
                 }
@@ -171,30 +177,11 @@ public class ListaVencidas extends Fragment {
 
             @Override
             public void onFailure(Call<ArrayList<Empresa>> call, Throwable t) {
+                lblConexionVencida.setVisibility(TextView.VISIBLE);
+                progressEmpresas.setVisibility(View.INVISIBLE);
+                swipeRefreshLayout.setRefreshing(false);
                 Log.d("onResponse empresas","Algo salió mal: "+t.getMessage());
             }
         });
     }
-
-    /*//------------------------------------RetroFit PagoMes--------------------------------------//
-    public void cargarPagoMes(){
-        Call<ArrayList<PagoMes>> call = ApiService.getPagosMes();
-        call.enqueue(new Callback<ArrayList<PagoMes>>() {
-            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-            @Override
-            public void onResponse(Call<ArrayList<PagoMes>> call, Response<ArrayList<PagoMes>> response) {
-                if(response.isSuccessful()){
-                    pagoMes = response.body();
-                    PagoMes = Float.parseFloat(pagoMes.get(0).getSuma_mes());
-                    Log.d("onResponse pagoMes","Se cargó S/. "+ PagoMes +".");
-                    actualizarBarraMes();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<ArrayList<PagoMes>> call, Throwable t) {
-                Log.d("onResponse pagoMes","Algo salió mal: "+t.getMessage());
-            }
-        });
-    }*/
 }

@@ -62,10 +62,10 @@ public class Splashscreen extends Activity{
 
                     if(usuario == ""){
                         intent = new Intent(Splashscreen.this,
-                                Login.class);
+                                LoginActivity.class);
                     } else {
                         intent = new Intent(Splashscreen.this,
-                                MainActivity.class);
+                                Main2Activity.class);
                     }
 
                     intent.setFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);

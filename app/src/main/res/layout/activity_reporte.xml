@@ -21,9 +21,10 @@
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:gravity="center"
+            android:shadowColor="#000000"
+            android:shadowRadius="2"
             android:text="IMAGEN ALTERNATIVA S.A.C."
-            android:textSize="24sp"
-            android:textStyle="bold" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/txtRUC"
@@ -199,6 +200,18 @@
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="30dp" />
+
+        <TextView
+            android:id="@+id/lblConexionReporte"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:text="No es posible conectarse con la base de datos.\nAsegúrese de tener conexión a internet."
+            android:textColor="#d02e26"
+            android:visibility="invisible"/>
 
         <ScrollView
             android:layout_width="match_parent"
